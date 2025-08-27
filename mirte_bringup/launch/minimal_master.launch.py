@@ -213,6 +213,15 @@ def generate_launch_description():
             ]
         ),
     )
+    mirte_laser_filters = Node(
+        package='laser_filters',
+        executable='scan_to_scan_filter_chain',
+        parameters=[
+        PathJoinSubstitution([
+            FindPackageShare('mirte_laser_filters'),
+            'config', 'laser_filter.yaml',
+        ])]
+    )
     # Instead of this, we could add a conditional to the launch argument declarations
     # to only launch when the condition is not set. By means of LaunchConfigurationEquals
     ld.add_action(
@@ -228,6 +237,7 @@ def generate_launch_description():
                 arm_control,
                 mecanum_drive_control,
                 rosbridge,
+                mirte_laser_filters,
             ],
             launch_configurations={
                 arg.name: LaunchConfiguration(arg.name)
